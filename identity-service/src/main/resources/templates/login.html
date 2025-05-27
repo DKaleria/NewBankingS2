@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc); /* Градиент фона */
+            color: white; /* Цвет текста на фоне */
+        }
+        .warning {
+            color: red; /* Цвет для сообщений об ошибках */
+        }
+        .btn-primary {
+            background-color: #6a11cb; /* Синий цвет */
+            color: white; /* Белый цвет текста */
+            border: 2px solid #6a11cb; /* Синяя граница */
+        }
+        .btn-primary:hover {
+            background-color: #2575fc; /* Светло-синий при наведении */
+            border-color: #2575fc; /* Светло-синяя граница при наведении */
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон для карточки */
+            color: black; /* Черный текст внутри карточки */
+            border-radius: 10px; /* Закругленные углы карточек */
+        }
+    </style>
+</head>
+<body>
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="card" style="width: 400px;">
+        <div class="card-body">
+            <h1 class="card-title text-center mb-4">Вход</h1>
+            <form th:action="@{/identity/authenticate}" method="post">
+                <div class="form-group">
+                    <label for="username">Имя пользователя</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div th:if="${error}" class="warning">
+                    <p th:text="${error}">Неверное имя пользователя или пароль.</p>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Войти</button>
+            </form>
+            <div class="text-center mt-3">
+                <p>Нет аккаунта? <a th:href="@{/identity/registration}" style="color: #6a11cb;">Зарегистрируйтесь здесь</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

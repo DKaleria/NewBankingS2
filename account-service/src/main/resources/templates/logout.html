@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Выход из системы</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc); /* Градиент фона */
+            color: white; /* Цвет текста на фоне */
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон для карточки */
+            color: black; /* Черный текст внутри карточки */
+            border-radius: 10px; /* Закругленные углы карточки */
+        }
+        .btn-primary {
+            background-color: #6a11cb; /* Синий цвет */
+            color: white; /* Белый текст */
+            border: 2px solid #6a11cb; /* Синяя граница */
+        }
+        .btn-primary:hover {
+            background-color: #2575fc; /* Светло-синий при наведении */
+            border-color: #2575fc; /* Светло-синяя граница при наведении */
+        }
+        .btn-secondary {
+            background-color: #ffffff; /* Белый фон */
+            color: #6a11cb; /* Синий цвет текста */
+            border: 2px solid #6a11cb; /* Синяя граница */
+        }
+        .btn-secondary:hover {
+            background-color: #6a11cb; /* Синий фон при наведении */
+            color: white; /* Белый текст при наведении */
+            border-color: #6a11cb; /* Синяя граница при наведении */
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var cancelButton = document.getElementById("cancelButton");
+            cancelButton.addEventListener("click", function(event) {
+                event.preventDefault();
+                var previousUrl = document.referrer;
+                if (previousUrl) {
+                    window.location.href = previousUrl;
+                } else {
+                    window.location.href = "/identity/login";
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title text-center">Вы уверены, что хотите выйти?</h3>
+                    <form action="http://localhost:8082/identity/logout" method="post">
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary">Да, выйти</button>
+                            <button type="button" class="btn btn-secondary" id="cancelButton">Отмена</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

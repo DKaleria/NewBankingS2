@@ -1,0 +1,59 @@
+package by.grgu.analysisservice.controller;
+
+import by.grgu.analysisservice.service.AnalysisService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+
+@Controller
+@RequestMapping("/analysis")
+public class AnalysisController {
+
+    private final AnalysisService analysisService;
+
+    public AnalysisController(AnalysisService analysisService) {
+        this.analysisService = analysisService;
+    }
+
+    @GetMapping
+    public String showAnalysisPage(Model model) {
+        model.addAttribute("username", "—");
+        model.addAttribute("balance", "—");
+        model.addAttribute("expensePercentage", "—");
+        model.addAttribute("month", LocalDate.now().getMonthValue());
+        model.addAttribute("year", LocalDate.now().getYear());
+        model.addAttribute("expenses", List.of());
+        model.addAttribute("incomes", List.of());
+
+        return "analysis";
+    }
+
+    @PostMapping("/data")
+    public String getAnalysisData(@RequestHeader("username") String username,
+                                  @RequestParam int month,
+                                  @RequestParam int year,
+                                  Model model) {
+        try {
+            BigDecimal balance = analysisService.getTotalBalance(username, month, year);
+            BigDecimal expensePercentage = analysisService.getExpensePercentage(username, month, year);
+            List<Object> expenses = analysisService.getExpensesForMonth(username, month, year);
+            List<Object> incomes = analysisService.getIncomesForMonth(username, month, year);
+
+            model.addAttribute("username", username);
+            model.addAttribute("month", month);
+            model.addAttribute("year", year);
+            model.addAttribute("balance", balance);
+            model.addAttribute("expensePercentage", expensePercentage);
+            model.addAttribute("expenses", expenses);
+            model.addAttribute("incomes", incomes);
+
+            return "analysis";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Ошибка при загрузке данных: " + e.getMessage());
+            return "analysis";
+        }
+    }
+}

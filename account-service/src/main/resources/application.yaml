@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: account-service
+  profiles:
+    active: database
+  datasource:
+    # url: jdbc:postgresql://account_db:5432/account_db
+    url: jdbc:postgresql://localhost:5432/account_db
+    dialect: org.hibernate.dialect.PostgreSQLDialect
+    username: my_user
+    password: 12345
+  jpa:
+    properties:
+      hibernate:
+        default_schema: public
+        ddl-auto: update
+        format_sql: true
+        show_sql: true
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+  liquibase:
+    change-log: db.changelog/main-changelog.xml
+
+server:
+  port: 8099
+
+eureka:
+  client:
+    registryFetchIntervalSeconds: 10
+    service-url:
+      # defaultZone: http://discoveryservice:8761/eureka
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type: TRACE
+
+jwt:
+  secret: T42d4f6a685f536563cD7572655f4b657fff9

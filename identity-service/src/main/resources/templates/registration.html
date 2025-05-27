@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc); /* Градиент фона */
+            color: #212529; /* Темный цвет текста на фоне */
+        }
+        .registration-form {
+            background-color: rgba(255, 255, 255, 0.95); /* Полупрозрачный фон для формы */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Увеличенная тень для формы */
+        }
+        .error-message {
+            margin-top: 10px;
+            color: red; /* Цвет сообщения об ошибке */
+        }
+        .form-control {
+            background-color: #f8f9fa; /* Светлый фон для полей ввода */
+            color: #212529; /* Темный цвет текста в полях ввода */
+        }
+        .form-control:focus {
+            border-color: #6a11cb; /* Цвет границы при фокусе */
+            box-shadow: 0 0 0 0.2rem rgba(106, 17, 203, 0.25); /* Тень при фокусе */
+        }
+        .btn-primary {
+            background-color: #6a11cb; /* Синий цвет */
+            border-color: #6a11cb; /* Синий цвет границы */
+        }
+        .btn-primary:hover {
+            background-color: #2575fc; /* Светло-синий при наведении */
+            border-color: #2575fc; /* Светло-синяя граница при наведении */
+        }
+        .text-white {
+            color: #6a11cb; /* Синий цвет для ссылок */
+        }
+    </style>
+    </head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="mb-4 text-center" style="color: #212529;">Регистрация</h1>
+    <form id="registrationForm" action="/identity/register" method="post" class="registration-form">
+        <div class="form-group">
+            <label for="username">Имя пользователя:</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="birthDate">Дата рождения:</label>
+            <input type="date" class="form-control" id="birthDate" name="birthDate" required>
+        </div>
+
+        <div class="form-group">
+            <label for="firstname">Имя:</label>
+            <input type="text" class="form-control" id="firstname" name="firstname" required>
+        </div>
+
+        <div class="form-group">
+            <label for="lastname">Фамилия:</label>
+            <input type="text" class="form-control" id="lastname" name="lastname" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+
+        <div class="form-group">
+            <label for="confirmPassword">Повторите пароль:</label>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="role">Роль:</label>
+            <select class="form-control" id="role" name="role" required>
+                <option value="USER">Пользователь</option>
+                <option value="ADMIN">Администратор</option>
+            </select>
+        </div>
+
+        <p id="errorMessage" class="error-message"></p>
+        <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
+    </form>
+
+    <div class="text-center mt-3">
+        <p>
+            <a th:href="@{/identity/exit}" style="color: white;">Выход</a>
+        </p>
+    </div>
+</div>
+
+<script>
+    function validateForm(event) {
+        var form = document.getElementById('registrationForm');
+        var password = document.getElementById('password').value;
+        var confirmPassword = document.getElementById('confirmPassword').value;
+        var email = document.getElementById('email').value;
+        var errorMessageElem = document.getElementById('errorMessage');
+        errorMessageElem.innerText = '';
+
+        if (password !== confirmPassword) {
+            errorMessageElem.innerText = 'Пароли не совпадают';
+            event.preventDefault();
+            return false;
+        }
+
+        if (!/\S+@\S+\.\S+/.test(email)) {
+            errorMessageElem.innerText = 'Неверный формат электронной почты';
+            event.preventDefault();
+            return false;
+        }
+
+        return true;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('registrationForm').addEventListener('submit', validateForm);
+    });
+</script>
+
+
+</body>
+</html>

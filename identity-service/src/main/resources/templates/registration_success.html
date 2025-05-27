@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация успешна</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc); /* Градиент фона */
+            color: #212529; /* Темный цвет текста */
+            font-family: 'Arial', sans-serif; /* Шрифт */
+        }
+
+        .card {
+            border-radius: 10px; /* Углы карточки */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Тень для карточки */
+            background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный фон для карточки */
+        }
+
+        .card-title {
+            color: #6a11cb; /* Цвет заголовка */
+        }
+
+        .btn-primary {
+            background-color: #6a11cb; /* Основной цвет кнопки */
+            border-color: #6a11cb;
+        }
+
+        .btn-primary:hover {
+            background-color: #2575fc; /* Цвет кнопки при наведении */
+            border-color: #2575fc;
+        }
+
+        .margin-top {
+            margin-top: 20px; /* Отступ сверху */
+        }
+    </style>
+</head>
+<body>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4">Регистрация успешна!</h1>
+                    <p class="card-text text-center">
+                        Спасибо за регистрацию в нашем приложении. Ваш аккаунт был успешно создан.
+                    </p>
+                    <div class="text-center margin-top">
+                        <a th:href="@{/identity/login}" class="btn btn-primary btn-block">Перейти к входу</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рекомендации</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc); /* Сине-фиолетовый градиент фона */
+            color: white; /* Цвет текста на фоне */
+        }
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон */
+            backdrop-filter: blur(10px); /* Эффект размытия фона */
+            border-radius: 10px; /* Закругленные углы панели */
+        }
+        .navbar-toggler {
+            border: none; /* Убираем границу */
+        }
+        .navbar-toggler-icon {
+            background-color: transparent; /* Прозрачный фон для кнопки */
+        }
+        .navbar-toggler-icon::before,
+        .navbar-toggler-icon::after {
+            content: '';
+            display: block;
+            width: 30px; /* Ширина полосок */
+            height: 3px; /* Высота полосок */
+            background-color: #ff4081; /* Цвет полосок (розовый) */
+            margin: 5px 0; /* Отступы между полосками */
+            transition: all 0.3s; /* Плавный переход */
+        }
+        .nav-link {
+            color: #6a11cb; /* Цвет текста ссылок */
+            font-weight: bold; /* Жирный шрифт для ссылок */
+            padding: 10px 15px; /* Отступы вокруг ссылок */
+            transition: color 0.3s; /* Плавный переход цвета */
+        }
+        .nav-link:hover {
+            color: #2575fc; /* Цвет текста ссылок при наведении */
+        }
+        .nav-link.active {
+            color: #ff4081; /* Цвет активной ссылки (розовый) */
+        }
+        .welcome-text {
+            font-size: 2rem; /* Размер шрифта */
+            font-weight: 700; /* Жирный шрифт */
+            text-align: center; /* Центрирование текста */
+            margin-bottom: 20px; /* Отступ снизу */
+        }
+        .card {
+            margin-bottom: 20px; /* Отступы между карточками */
+            border-radius: 10px; /* Закругленные углы карточек */
+            background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон для карточек */
+            color: black; /* Черный текст внутри карточек */
+        }
+        .card-title {
+            color: #6a11cb; /* Цвет заголовков карточек */
+        }
+        .btn-custom {
+            background-color: #ffffff; /* Белый фон */
+            color: #6a11cb; /* Синий цвет текста */
+            border: 2px solid #6a11cb; /* Синяя граница */
+            border-radius: 5px; /* Закругленные углы */
+            padding: 10px 20px; /* Отступы внутри кнопки */
+            transition: all 0.3s ease; /* Плавный переход */
+            font-weight: bold; /* Жирный шрифт */
+        }
+        .btn-custom:hover {
+            background-color: #6a11cb; /* Синий фон при наведении */
+            color: white; /* Белый текст при наведении */
+            border-color: #6a11cb; /* Синяя граница при наведении */
+        }
+        .btn-custom:focus {
+            outline: none; /* Убираем рамку при фокусе */
+            box-shadow: 0 0 5px rgba(106, 17, 203, 0.5); /* Тень при фокусе */
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg">
+    <a class="navbar-brand" href="#">Финансовый менеджер</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8082/accounts/account">Мой аккаунт</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8082/incomes/show">Мои доходы</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8082/expenses/show">Мои расходы</a>
+            </li>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8082/analysis">Анализ расходов и доходов</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8082/recommendations">Рекомендации</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8082/reports/generate">Генерация отчетов</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/accounts/exit">Выйти</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h1 class="welcome-text">Персонализированные рекомендации</h1>
+
+    <form action="/recommendations/personal" method="get">
+        <div class="form-row">
+            <div class="col">
+                <label for="month">Месяц</label>
+                <select class="form-control" id="month" name="month">
+                    <option value="1">Январь</option>
+                    <option value="2">Февраль</option>
+                    <option value="3">Март</option>
+                    <option value="4">Апрель</option>
+                    <option value="5">Май</option>
+                    <option value="6">Июнь</option>
+                    <option value="7">Июль</option>
+                    <option value="8">Август</option>
+                    <option value="9">Сентябрь</option>
+                    <option value="10">Октябрь</option>
+                    <option value="11">Ноябрь</option>
+                    <option value="12">Декабрь</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="year">Год</label>
+                <input type="number" class="form-control" id="year" name="year" value="2025" min="2000" max="2100">
+            </div>
+            <div class="col">
+                <label for="desiredExpenses">Желаемые траты</label>
+                <input type="number" class="form-control" id="desiredExpenses" name="desiredExpenses" value="5000" min="0">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-custom mt-3">Получить рекомендации</button>
+    </form>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <h5 class="card-title">Ваши советы на основе анализа трат</h5>
+            <p>На основе ваших прошлых расходов, вот несколько рекомендаций:</p>
+            <ul>
+                <li th:each="rec : ${recommendations}" th:text="${rec}"></li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>История трат</h2>
+    <div class="alert alert-info" role="alert">
+        <strong>💰 Доходы: <span th:text="${totalIncome}"></span> руб.,
+            🛒 Расходы: <span th:text="${totalExpense}"></span> руб.,
+            📊 Доступный бюджет: <span th:text="${remainingBudget}"></span> руб.,
+            📝 Планируемые траты: <span th:text="${desiredExpenses}"></span> руб.</strong>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
