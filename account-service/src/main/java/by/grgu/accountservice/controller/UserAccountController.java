@@ -19,12 +19,25 @@ public class UserAccountController {
     public ResponseEntity<Map<String, String>> updateAccount(@RequestBody Map<String, String> updatedData) {
         String oldUsername = updatedData.get("oldUsername");
         String newUsername = updatedData.getOrDefault("username", oldUsername);
+        String newFirstname = updatedData.getOrDefault("firstname", "");
+        String newLastname = updatedData.getOrDefault("lastname", "");
+        String newEmail = updatedData.getOrDefault("email", "");
 
         Account account = accountRepository.findByUsername(oldUsername)
                 .orElseThrow(() -> new RuntimeException("Аккаунт не найден: " + oldUsername));
 
+
         if (!oldUsername.equals(newUsername)) {
             account.setUsername(newUsername);
+        }
+        if (!newFirstname.isEmpty()) {
+            account.setFirstname(newFirstname);
+        }
+        if (!newLastname.isEmpty()) {
+            account.setLastname(newLastname);
+        }
+        if (!newEmail.isEmpty()) {
+            account.setEmail(newEmail);
         }
 
         accountRepository.save(account);
@@ -32,5 +45,4 @@ public class UserAccountController {
 
         return ResponseEntity.ok(Map.of("status", "success", "message", "Аккаунт обновлён"));
     }
-
 }

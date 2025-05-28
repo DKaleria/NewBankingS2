@@ -166,38 +166,62 @@
         </button>
     </div>
 </div>
-<script> function toggleEdit(field) {
-    const display = document.getElementById(field + 'Display');
-    const input = document.getElementById(field);
-    const isEditing = input.style.display === 'block';
-    input.style.display = isEditing ? 'none' : 'block';
-    display.style.display = isEditing ? 'inline' : 'none';
-    document.getElementById('saveButton').style.display = 'block';
-}
+<script>
+    function toggleEdit(field) {
+        const display = document.getElementById(field + 'Display');
+        const input = document.getElementById(field);
 
-function saveChanges() {
-    let oldUsername = document.getElementById("usernameDisplay").innerText;
-    let newUsername = document.getElementById("username").value;
-    let updatedData = {
-        username: newUsername || oldUsername,
-        firstname: document.getElementById("firstname").value || "",
-        lastname: document.getElementById("lastname").value || "",
-        email: document.getElementById("email").value || ""
-    };
-    console.log("Отправляем данные в IdentityService:", updatedData);
-    fetch("/user-identity/updateField", {
-        method: "POST",
-        headers: {"Content-Type": "application/json", "username": oldUsername},
-        body: JSON.stringify(updatedData)
-    }).then(response => response.json()).then(identityData => {
-        if (identityData.status !== "success") {
-            console.error("Ошибка обновления в IdentityService:", identityData.message);
+        if (!input) {
+            console.error("Поле ввода не найдено:", field);
             return;
         }
-        console.log("Данные обновлены в IdentityService!", identityData);
-        document.getElementById("usernameDisplay").innerText = newUsername;
-    }).catch(error => console.error("Ошибка обновления данных!", error));
-} </script>
+
+        const isEditing = input.style.display === 'block';
+        input.style.display = isEditing ? 'none' : 'block';
+        display.style.display = isEditing ? 'inline' : 'none';
+
+        document.getElementById('saveButton').style.display = 'block';
+    }
+
+    function saveChanges() {
+        let updatedData = {
+            username: document.getElementById("username").value.trim() || document.getElementById("usernameDisplay").innerText.trim(),
+            firstname: document.getElementById("firstname").value.trim() || document.getElementById("firstnameDisplay").innerText.trim(),
+            lastname: document.getElementById("lastname").value.trim() || document.getElementById("lastnameDisplay").innerText.trim(),
+            email: document.getElementById("email").value.trim() || document.getElementById("emailDisplay").innerText.trim()
+        };
+
+        console.log("Отправляем данные в IdentityService:", updatedData);
+
+        fetch("/user-identity/updateField", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "username": updatedData.username
+            },
+            body: JSON.stringify(updatedData)
+        })
+            .then(response => response.json())
+            .then(identityData => {
+                if (identityData.status !== "success") {
+                    console.error("Ошибка обновления в IdentityService:", identityData.message);
+                    return;
+                }
+                console.log("Данные обновлены!", identityData);
+
+                document.getElementById("usernameDisplay").innerText = updatedData.username;
+                document.getElementById("firstnameDisplay").innerText = updatedData.firstname;
+                document.getElementById("lastnameDisplay").innerText = updatedData.lastname;
+                document.getElementById("emailDisplay").innerText = updatedData.email;
+
+                // Скрываем поля после успешного обновления
+                document.querySelectorAll(".edit-field").forEach(input => input.style.display = "none");
+                document.querySelectorAll(".btn-edit").forEach(button => button.style.display = "inline");
+                document.getElementById("saveButton").style.display = "none";
+            })
+            .catch(error => console.error("Ошибка обновления данных!", error));
+    }
+</script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
