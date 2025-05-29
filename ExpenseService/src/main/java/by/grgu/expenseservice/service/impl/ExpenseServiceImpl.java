@@ -30,13 +30,15 @@ public class ExpenseServiceImpl implements ExpenseService {
         return expenseRepository.getExpenseDescriptions(username);
     }
 
-
-
     @Override
     public Expense createExpense(Expense expense) {
         String totalIncomeUrl = "http://localhost:8082/incomes/" + expense.getUsername() + "/total";
         ResponseEntity<BigDecimal> incomeResponse = restTemplate.getForEntity(totalIncomeUrl, BigDecimal.class);
         BigDecimal totalIncome = (incomeResponse.getBody() != null) ? incomeResponse.getBody() : BigDecimal.ZERO;
+
+        if (totalIncome.compareTo(BigDecimal.ZERO) == 0) {
+            throw new IllegalArgumentException("Ошибка: Нельзя добавлять расходы, пока нет доходов!");
+        }
 
         String totalExpenseUrl = "http://localhost:8082/expenses/" + expense.getUsername() + "/total";
         ResponseEntity<BigDecimal> expenseResponse = restTemplate.getForEntity(totalExpenseUrl, BigDecimal.class);
@@ -50,6 +52,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         return expenseRepository.save(expense);
     }
+
 
 
     @Override
