@@ -13,8 +13,8 @@ public class AnalysisServiceImpl implements AnalysisService {
 
     private final RestTemplate restTemplate;
 
-    private static final String INCOME_URL_TEMPLATE = "http://localhost:8082/incomes/%s/all?month=%d&year=%d";
-    private static final String EXPENSE_URL_TEMPLATE = "http://localhost:8082/expenses/%s/all?month=%d&year=%d";
+    private static final String INCOME_URL_TEMPLATE = "http://localhost:8082/api/incomes/monthly?month=%d&year=%d";
+    private static final String EXPENSE_URL_TEMPLATE = "http://localhost:8082/api/expenses/monthly?month=%d&year=%d";
 
     public AnalysisServiceImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -49,14 +49,14 @@ public class AnalysisServiceImpl implements AnalysisService {
 
     @Override
     public List<Object> getExpensesForMonth(String username, int month, int year) {
-        String expenseUrl = String.format(EXPENSE_URL_TEMPLATE, username, month, year);
+        String expenseUrl = String.format(EXPENSE_URL_TEMPLATE, month, year);
         ResponseEntity<Object[]> response = restTemplate.getForEntity(expenseUrl, Object[].class);
         return response.getBody() != null ? Arrays.asList(response.getBody()) : List.of();
     }
 
     @Override
     public List<Object> getIncomesForMonth(String username, int month, int year) {
-        String incomeUrl = String.format(INCOME_URL_TEMPLATE, username, month, year);
+        String incomeUrl = String.format(INCOME_URL_TEMPLATE, month, year);
         ResponseEntity<Object[]> response = restTemplate.getForEntity(incomeUrl, Object[].class);
         return response.getBody() != null ? Arrays.asList(response.getBody()) : List.of();
     }

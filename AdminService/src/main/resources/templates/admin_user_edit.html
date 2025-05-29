@@ -117,7 +117,6 @@
             <label>Роль:</label>
             <select class="form-control" id="role">
                 <option value="USER" th:selected="${account.role == 'USER'}">Пользователь</option>
-                <option value="MANAGER" th:selected="${account.role == 'MANAGER'}">Менеджер</option>
                 <option value="ADMIN" th:selected="${account.role == 'ADMIN'}">Администратор</option>
             </select>
         </div>
@@ -140,7 +139,7 @@
         document.getElementById(field + 'Display').style.display = 'none';
     }
 
-    function setActive(value) {
+    function setActive(vXanalue) {
         document.getElementById('active').value = value; // Устанавливаем значение активности
     }
 

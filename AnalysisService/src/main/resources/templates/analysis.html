@@ -154,18 +154,19 @@
             </thead>
             <tbody>
             <tr th:each="income : ${incomes}">
-                <td th:text="${income.date}"></td>
+                <td th:text="${income['date']}"></td>
                 <td style="color: #2575fc;">Доход</td>
-                <td th:text="${income.source}"></td>
-                <td th:text="${income.amount}"></td>
+                <td th:text="${income['source']}"></td>
+                <td th:text="${income['amount']}"></td>
             </tr>
             <tr th:each="expense : ${expenses}">
-                <td th:text="${expense.date}"></td>
+                <td th:text="${expense['date']}"></td>
                 <td style="color: #ff4081;">Расход</td>
-                <td th:text="${expense.source}"></td>
-                <td th:text="${expense.amount}"></td>
+                <td th:text="${expense['description']}"></td>
+                <td th:text="${expense['amount']}"></td>
             </tr>
             </tbody>
+
         </table>
 
         <div style="margin-top: 20px; border: 1px solid #ccc; padding: 10px; width: fit-content;">
